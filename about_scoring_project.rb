@@ -30,7 +30,95 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  score=0
+  # Working on efficient way of doing this.
+  if !dice.empty?
+
+    if dice.size ==3
+      triplet,remaining = dice.partition{|n| dice.count(n) == 3}
+      
+      if  triplet.empty?
+        # if triplet is not present remaining and dice will be equal
+        dice.each do |n|
+          if n==1
+            score+=100
+          elsif n==5
+            score +=50
+          else
+            score+=0   # Added for understanding purpose
+          end
+        end
+      else
+          if triplet.include?(1)
+            score+=1000
+          else
+            score+=(triplet[0]*100)
+          end
+
+          remaining.each do |n|
+            if n==1
+              score+=100
+            elsif n==5
+              score+=50
+            else
+              score+=0   # Added for understanding purpose
+            end
+          end
+      end
+    elsif (dice.size>3 && dice.size<=5)
+      h = Hash.new(0)
+      dice.each do |v|
+        h[v]+=1
+      end
+
+      h.keys.each do |key|
+        if key == 1
+            if h[key] ==1
+              score+=100
+            elsif h[key] ==2
+              score+=200
+            elsif h[key] == 3
+              score += 1000
+           elsif h[key] == 4
+              score += 1100
+            else
+              score += 1200
+            end 
+        elsif key == 5
+          if h[key] ==1
+            score+=50
+          elsif h[key] == 2
+            score+= 100
+          elsif h[key] == 3
+            score+=500
+          elsif h[key] ==4
+            score+=550
+          else
+            score+=600
+          end
+        else
+          if h[key] == 3
+            score+= (key*100)
+          else
+            score+=0
+          end
+        end
+          
+      end
+    else
+      dice.each do |n|
+        if n == 1
+          score+=100
+        elsif n==5
+          score+=50
+        else
+          score+=0
+        end
+      end
+    end
+
+  end
+  score
 end
 
 class AboutScoringProject < Neo::Koan
