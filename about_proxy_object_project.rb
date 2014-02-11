@@ -15,9 +15,59 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 class Proxy
   def initialize(target_object)
     @object = target_object
+    @messages = []
     # ADD MORE CODE HERE
   end
 
+  attr_accessor :power
+
+  def channel=(channel)
+    @messages.push("#{__method__.to_s}".to_sym)
+    @channel = channel
+  end
+
+  def channel
+    @messages.push("#{__method__.to_s}".to_sym)
+    @channel
+  end
+
+  def power
+    @messages.push("#{__method__.to_s}".to_sym)
+    if @power
+      @power=false
+    else
+      @power=true
+    end
+  end
+
+  def on?
+    @power
+  end
+
+  def messages
+    @messages
+  end
+
+  def called?(name)
+    @messages.include?(name)
+  end
+
+  def number_of_times_called(name)
+    count = 0
+    @messages.select {|n| count+=1 if n==name}
+
+    count
+  end
+
+  def upcase!
+    @messages.push("#{__method__.to_s}".to_sym)
+    @object.upcase!
+  end
+
+  def split
+    @messages.push("#{__method__.to_s}".to_sym)
+    @object.split
+  end
   # WRITE CODE HERE
 end
 
